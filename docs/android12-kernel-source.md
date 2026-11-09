@@ -3,30 +3,28 @@
 ## Exact build reported for the target handset
 
 - Device: Motorola Moto G60 XT2135-2
+- Installed RAM: 6 GB
 - Android version: Android 12
 - Build number: `S2RIS32.32-20-9-9-2-3`
 - Firmware package identified in Motorola's kernel-source request tracker: `XT2135-2_HANOIP_RETEU_12_S2RIS32.32-20-9-9-2-3_subsidy-DEFAULT_regulatory-XT2135-2-EUROPE_CFC.xml.zip`
 
 ## Matching Motorola kernel source
 
-Motorola's official `kernel-msm` repository published the matching source release under the tag:
-
-`MMI-S2RIS32.32-20-9-9-2-3`
+Motorola's official `kernel-msm` repository published the matching source release under the tag `MMI-S2RIS32.32-20-9-9-2-3`.
 
 Release: https://github.com/MotorolaMobilityLLC/kernel-msm/releases/tag/MMI-S2RIS32.32-20-9-9-2-3
 
-Motorola tracking issue confirming the exact XT2135-2 firmware build and source publication: https://github.com/MotorolaMobilityLLC/kernel-msm/issues/574
+Motorola tracking issue: https://github.com/MotorolaMobilityLLC/kernel-msm/issues/574
 
-The release is described as a Hanoip push for Android 12. This is the Android/Linux kernel source corresponding to the reported firmware build; it is **not** XNU source and does not make iOS or Darwin compatible with this phone.
+## Kernel version and configuration findings
 
-## Research plan
+- The tag's top-level `Makefile` declares Linux **4.14.190**.
+- The base ARM64 config is `arch/arm64/configs/vendor/sdmsteppe-perf_defconfig`.
+- That base config sets `CONFIG_LOCALVERSION="-perf"`, `CONFIG_ARCH_QCOM=y`, `CONFIG_ARCH_SM6150=y`, `CONFIG_ARCH_SDMMAGPIE=y`, and `CONFIG_QCOM_KGSL=y`.
+- The Hanoip-specific fragment is `arch/arm64/configs/vendor/ext_config/moto-sdmmagpie-hanoip.config`; it sets `CONFIG_HANOIP_DTB=y` and `CONFIG_DRM_MSM_DSI_MOT_EXT=y`.
+- The exact final `.config` used by the stock Android 12 build has not yet been captured, so the running kernel release string and final merged config remain to be checked.
 
-1. Record the release tag and commit metadata in the research log.
-2. Review the source tree's top-level README, build configuration, defconfig, and device-specific files.
-3. Identify the kernel base/version and enabled platform drivers from source, not guesswork.
-4. Compare the matching source with the hanoip device tree and vendor manifests.
-5. Extract a hardware/driver inventory for WLAN, display, touch, audio, GPU, power, sensors, and storage.
-6. Use the inventory to write a Darwin/XNU feasibility assessment; do not claim Linux drivers can be loaded by XNU.
+See [the component audit](kernel-audit.md) for Wi-Fi, display, touchscreen, audio, GPU, and battery/power findings with source links and confidence levels.
 
 ## Scope and safety
 
@@ -36,6 +34,8 @@ This stage is source review only. Do not flash images, alter boot partitions, un
 
 - [x] Exact Android 12 build supplied by device owner.
 - [x] Matching Motorola kernel-source release identified.
-- [ ] Inspect and document the release's kernel version and configuration.
-- [ ] Audit device-specific driver and device-tree coverage.
+- [x] Kernel source version and base/Hanoip config fragments inspected.
+- [x] Initial driver/module inventory documented.
+- [ ] Capture the exact running kernel release and final `.config`.
+- [ ] Confirm exact peripheral IDs from the device tree or read-only runtime inventory.
 - [ ] Draft Darwin/XNU feasibility report.
