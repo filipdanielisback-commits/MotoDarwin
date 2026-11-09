@@ -2,29 +2,29 @@
 
 **Overall:** pre-alpha / source audit and hardware feasibility research.
 
-No Moto G60 XNU port has been built, booted, or validated by this repository at this stage.
+No Moto G60 XNU port has been built, booted, or validated by this repository.
 
 | Area | Status | Evidence required before changing status |
 |---|---|---|
-| Device identification | Research pending | Exact model and software baseline |
-| iOS 26.2 XNU source mapping | Not verified | Apple-published source revision explicitly mapped to iOS 26.2 |
-| Public upstream XNU research | In progress | Pinned official source tag/commit and license review |
+| Device identification | XT2135-2, 6 GB RAM, Android 12 build recorded | Runtime identity/build fingerprint verification |
+| Android kernel source | Matching Motorola tag identified; Linux 4.14.190 | Capture running kernel release and final merged `.config` |
+| Kernel config family | sdmsteppe perf defconfig + Hanoip fragment inspected | Verify actual stock Android 12 merged config |
+| iOS 26.2 XNU source mapping | Not verified | Apple-published revision explicitly mapped to iOS 26.2 |
+| Public upstream XNU research | Pinned source baseline recorded | Add/pin submodule and review exact license notices |
 | Upstream XNU build | Not started | Reproducible build log and pinned revision |
 | Moto G60 boot support | Not started | Reviewed platform design and safe test evidence |
-| CPU / ARM64 | Research pending | Supported platform integration and tests |
-| Wi-Fi chipset | Preliminary WCN3990 lead; verify per variant | Exact device evidence from kernel/device tree and runtime |
+| Wi-Fi stack | Hanoip device tree lists `qca_cld3_wlan.ko`; exact radio chip unknown | Exact WLAN device-tree node / runtime hardware ID |
 | Darwin Wi-Fi driver | Not implemented | Driver code and hardware test evidence |
-| Wi-Fi firmware integration | Not implemented | Legal provenance and validated firmware loading |
-| Display | Not started | Driver implementation and physical test |
-| Touchscreen | Not started | Driver implementation and physical test |
-| Audio | Not started | Playback and capture tests |
-| GPU | Not started | Documented graphics stack and rendering tests |
-| Bluetooth | Not started | Connectivity and stability tests |
+| Display | Qualcomm MSM DRM/DSI path; exact panel unknown | Panel ID, timings, driver implementation and physical test |
+| Touchscreen | `ilitek_v3_mmi.ko` listed; exact controller unknown | Controller ID and bus details |
+| Audio | WCD937x/WCD934x/WSA881x/AW882xx modules listed | Exact physical codec/amplifier mapping and playback/capture tests |
+| GPU | Adreno 618 target; Qualcomm KGSL Linux driver enabled | Darwin graphics design and rendering tests |
+| Battery / power | QPNP QG + SMB5 config; exact PMIC unknown | Exact PMIC/gauge IDs and telemetry/charging tests |
+| Bluetooth | Not started | Chipset identification and connectivity tests |
 | Storage / USB | Not started | Read/write and device enumeration tests |
-| Battery / charging | Not started | Telemetry and charging tests |
 | Camera / sensors | Not started | Per-device functional tests |
 | Sleep / wake | Not started | Repeated suspend/resume tests |
-| App Store / Apple services | Unsupported / out of scope | Depends on proprietary Apple infrastructure |
+| App Store / Apple services | Unsupported / out of scope | Requires proprietary Apple infrastructure |
 
 ## Status vocabulary
 
