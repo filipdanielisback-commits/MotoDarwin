@@ -11,7 +11,7 @@ MotoDarwin is an independent research project investigating what would be requir
 ## Project goals
 
 - Establish a reproducible ARM64 XNU build environment.
-- Track upstream XNU and preserve its original licensing and notices.
+- Track Apple's public XNU source as a pinned upstream dependency.
 - Document Moto G60 hardware, firmware boundaries, and driver requirements.
 - Build a safe, staged feasibility plan using emulation and host-side tests first.
 - Record evidence for each hardware feature; never label an untested feature as working.
@@ -20,19 +20,19 @@ MotoDarwin is an independent research project investigating what would be requir
 
 | Item | Current research target |
 |---|---|
-| Device | Motorola Moto G60 |
+| Device | Motorola Moto G60 XT2135-2 |
+| RAM | 6 GB |
 | Device codename | hanoip |
+| Android build | `S2RIS32.32-20-9-9-2-3` |
+| Android kernel source | Motorola `MMI-S2RIS32.32-20-9-9-2-3` (Linux 4.14.190) |
 | SoC | Qualcomm Snapdragon 732G family |
 | CPU architecture | ARM64 |
 | GPU | Qualcomm Adreno 618 |
-| Kernel target | Apple open-source XNU (research only) |
-
-Hardware details must be verified against the exact device variant and its kernel/device-tree sources before implementation.
 
 ## Repository map
 
-- `docs/` — architecture, feasibility, hardware, and [Wi-Fi research](docs/wifi.md)
-- `xnu/` — upstream XNU tracking, [iOS 26.2 source status](xnu/IOS_26_2_SOURCE_STATUS.md), and local patch policy
+- `docs/` — architecture, feasibility, [hardware audit](docs/kernel-audit.md), [Wi-Fi research](docs/wifi.md), and Android kernel source match
+- `xnu/` — Apple upstream tracking and XNU build research
 - `bootloader/` — boot-chain research; no flashing payloads
 - `devices/moto-g60/` — device-specific notes
 - `drivers/` — driver investigation and status
@@ -44,25 +44,10 @@ Hardware details must be verified against the exact device variant and its kerne
 
 XNU is one component of Darwin. A complete iOS installation also depends on proprietary Apple components, platform-specific drivers, firmware, a trusted boot chain, code-signing infrastructure, and Apple services. Rebuilding open-source XNU does not recreate iOS, make an Android phone iOS-compatible, or provide App Store / Apple ID functionality.
 
-MotoDarwin will not redistribute proprietary Apple firmware, iOS images, signing keys, private source code, or circumvention tools. Any future compatibility work must use lawfully obtained materials and respect applicable licenses and platform security.
-
-## First milestones
-
-1. Inventory the exact Moto G60 variant and its existing Android software baseline.
-2. Establish a clean host build environment and pin an upstream XNU revision.
-3. Reproduce an upstream XNU build for a supported development target.
-4. Document the differences between that target and Moto G60's Qualcomm platform.
-5. Evaluate emulation and non-destructive experiments before any device-specific boot work.
-6. Create driver feasibility reports for display, touch, audio, GPU, Wi-Fi, Bluetooth, storage, battery, cameras, and power management.
-
-See [ROADMAP.md](ROADMAP.md), [STATUS.md](STATUS.md), and [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Contributing
-
-Research notes, source references, build logs, and carefully scoped experiments are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+MotoDarwin is a Darwin/XNU research prototype, not a fake or official iOS build. It will not redistribute proprietary Apple firmware, iOS images, signing keys, private source code, or circumvention tools.
 
 ## License and attribution
 
-This repository does not change the license of Apple or third-party code. XNU is distributed by Apple under the Apple Public Source License (APSL); consult the exact upstream revision's license and notices before copying, modifying, or redistributing files. See [xnu/README.md](xnu/README.md).
+This repository does not change the license of Apple or third-party code. Read the selected upstream XNU revision's license and notices before copying, modifying, or redistributing files. See [xnu/README.md](xnu/README.md) and [xnu/UPSTREAM.md](xnu/UPSTREAM.md).
 
 Project documentation has no blanket license declaration yet. Do not assume that third-party code or assets in this repository are relicensed.
