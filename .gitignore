@@ -1,0 +1,33 @@
+# Build outputs
+build/
+out/
+dist/
+*.o
+*.a
+*.dSYM/
+*.elf
+*.bin
+*.img
+*.dtb
+*.dtbo
+
+# Tooling
+.cache/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local/editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local logs and secrets
+*.log
+.env
+.env.*
+!.env.example
