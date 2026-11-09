@@ -31,8 +31,8 @@ Hardware details must be verified against the exact device variant and its kerne
 
 ## Repository map
 
-- `docs/` — architecture, feasibility, and hardware notes
-- `xnu/` — upstream XNU tracking and local patch policy
+- `docs/` — architecture, feasibility, hardware, and [Wi-Fi research](docs/wifi.md)
+- `xnu/` — upstream XNU tracking, [iOS 26.2 source status](xnu/IOS_26_2_SOURCE_STATUS.md), and local patch policy
 - `bootloader/` — boot-chain research; no flashing payloads
 - `devices/moto-g60/` — device-specific notes
 - `drivers/` — driver investigation and status
