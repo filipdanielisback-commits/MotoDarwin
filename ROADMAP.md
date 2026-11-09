@@ -5,19 +5,20 @@ This is a research roadmap, not a promise that every milestone is technically ac
 ## Phase 0 — Project hygiene and device inventory
 
 - [x] Create repository structure and research documentation.
-- [ ] Confirm exact Moto G60 model / regional variant and codename from the device itself.
-- [ ] Record Android build fingerprint, bootloader state, kernel version, and firmware baseline.
-- [ ] Collect authoritative hardware references and upstream source links.
-- [ ] Establish contribution, attribution, and artifact provenance rules.
+- [x] Record exact Moto G60 XT2135-2 variant, 6 GB RAM, Android 12 build number.
+- [x] Identify matching Motorola kernel source tag.
+- [x] Record Linux kernel source version and initial driver/module inventory.
+- [ ] Capture running kernel release, Android build fingerprint, and final merged kernel config.
+- [ ] Confirm exact peripheral IDs from matching device-tree nodes or read-only runtime inventory.
 
-**Exit criteria:** device identity and baseline are documented with sources; no guessed hardware assumptions remain.
+**Exit criteria:** device identity and software baseline are documented with sources; no guessed hardware assumptions remain.
 
 ## Phase 1 — XNU source identification and build reproduction
 
-- [ ] Review Apple's open-source release listings for iOS 26.2 and identify which components are actually published.
-- [ ] Determine whether an exact iOS 26.2 XNU source revision is publicly available; do not infer a mapping from a macOS source tag.
-- [ ] Select and pin a public XNU snapshot for general research if no iOS-specific source is published.
-- [ ] Read the selected revision's build instructions and license files.
+- [x] Record official Apple XNU upstream repository.
+- [x] Pin a public XNU source snapshot for reproducible research; exact iOS 26.2 mapping remains unverified.
+- [ ] Add the pinned upstream source as a Git submodule and review its license notices.
+- [ ] Read the selected revision's build instructions and dependencies.
 - [ ] Reproduce a supported upstream build on a clean host.
 - [ ] Save toolchain versions, commands, logs, and output hashes.
 - [ ] Document which architectures and platforms the selected revision actually supports.
@@ -26,28 +27,27 @@ This is a research roadmap, not a promise that every milestone is technically ac
 
 ## Phase 2 — Wi-Fi hardware and driver feasibility
 
-- [ ] Confirm exact Moto G60 model / regional variant and WLAN hardware identifiers.
-- [ ] Review the hanoip device tree, kernel configuration, WLAN driver references, and firmware manifest.
-- [ ] Validate the preliminary WCN3990 / ath10k lead against device-specific evidence.
+- [x] Identify the Hanoip device-tree WLAN module reference (`qca_cld3_wlan.ko`).
+- [ ] Confirm exact Moto G60 XT2135-2 WLAN device-tree node, chipset ID, and bus.
+- [ ] Verify which WLAN module is actually loaded by the stock firmware.
 - [ ] Document firmware and calibration provenance without committing proprietary blobs.
-- [ ] Design a Darwin/XNU driver integration plan; Linux ath10k is a reference, not a drop-in XNU driver.
+- [ ] Design a Darwin/XNU driver integration plan; the Android/Linux vendor driver is a reference, not a drop-in XNU driver.
 - [ ] Define scan, connect, DHCP, DNS, throughput, reconnect, regulatory, and suspend/resume tests.
 
 **Exit criteria:** hardware identity and a reviewed driver feasibility report exist. No Wi-Fi functionality is claimed until tested on the exact device.
 
 ## Phase 3 — Platform feasibility
 
-- [ ] Map Moto G60 boot flow and documented boot image format.
-- [ ] Identify the SoC, interrupt controller, timers, memory map, clocks, and power domains from reliable sources.
-- [ ] Compare the platform requirements with the selected XNU porting interfaces.
-- [ ] Identify the missing platform adaptation and driver work.
+- [ ] Map the SoC platform interfaces: interrupts, timers, memory map, clocks, power domains, and IOMMU.
+- [ ] Compare those requirements with the selected XNU porting interfaces.
+- [ ] Identify missing platform adaptation and driver work.
 - [ ] Decide whether emulation or a supported development board is a better first kernel target.
 
 **Exit criteria:** a reviewed feasibility report with explicit blockers and unknowns.
 
 ## Phase 4 — Other driver research
 
-Track display, touchscreen, audio, GPU, Bluetooth, storage, battery/charging, cameras, sensors, USB, and suspend/resume independently.
+Track display/DSI panel, Ilitek touchscreen, Qualcomm audio, Adreno GPU, Bluetooth, storage, battery/charging, cameras, sensors, USB, and suspend/resume independently. See [docs/kernel-audit.md](docs/kernel-audit.md).
 
 **Exit criteria:** each item has a source-backed status, owner, test plan, and evidence. "Unknown" is an acceptable status.
 
@@ -55,7 +55,7 @@ Track display, touchscreen, audio, GPU, Bluetooth, storage, battery/charging, ca
 
 - [ ] Prototype only in a supported emulator or development environment first.
 - [ ] Add automated host-side checks and build reproducibility tests.
-- [ ] Keep device recovery instructions and original firmware references documented.
+- [ ] Keep device recovery documentation and official firmware references documented.
 - [ ] Require independent review before any experiment that writes to device partitions.
 
 **Exit criteria:** repeatable test evidence and a recovery plan. No daily-driver flashing.
