@@ -54,12 +54,23 @@ Track display/DSI panel, Ilitek touchscreen, Qualcomm audio, Adreno GPU, Bluetoo
 ## Phase 5 — Non-destructive prototype
 
 - [x] Build the AARCH64 UEFI application locally.
-- [ ] Run the UEFI application in an emulator and capture a reproducible test log.
+- [ ] Run the UEFI application in an emulator and capture a reproducible test log. See [Milestone 0.1.1 — UEFI Emulator Validation](docs/milestones/0.1.1-uefi-emulator-validation.md).
 - [ ] Add automated host-side checks and build reproducibility tests.
 - [ ] Keep device recovery documentation and official firmware references documented.
 - [ ] Require independent review before any experiment that writes to device partitions.
 
 **Exit criteria:** repeatable emulator/host test evidence and a recovery plan. No daily-driver flashing.
+
+### Active milestone — 0.1.1 UEFI Emulator Validation
+
+- [x] Prepare a documented QEMU validation plan and evidence checklist.
+- [ ] Confirm AArch64 UEFI firmware launches the MotoDarwin EFI application.
+- [ ] Verify GOP/interface rendering and expected status text.
+- [ ] Verify ESC handling and clean exit.
+- [ ] Capture application hash, QEMU/firmware versions, command line, and test logs.
+- [ ] Repeat from a clean emulator setup.
+
+**Status:** Prepared; no emulator test has been performed or passed yet. This milestone is emulator-only and does not create a bootable Moto G60 image.
 
 ## Phase 6 — Device experiments (future / gated)
 
