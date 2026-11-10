@@ -27,7 +27,7 @@ This is a research roadmap, not a promise that every milestone is technically ac
 
 ## Phase 2 — Wi-Fi hardware and driver feasibility
 
-- [x] Identify the Hanoip device-tree WLAN module reference (`qca_cld3_wlan.ko`).
+- [x] Identify the Hanoip device-tree WLAN module reference (`qca_cld3_wlan.ko`). See [Wi-Fi Driver Feasibility Report](docs/research/wifi-driver-feasibility.md) for evidence and limitations.
 - [ ] Confirm exact Moto G60 XT2135-2 WLAN device-tree node, chipset ID, and bus.
 - [ ] Verify which WLAN module is actually loaded by the stock firmware.
 - [ ] Document firmware and calibration provenance without committing proprietary blobs.
