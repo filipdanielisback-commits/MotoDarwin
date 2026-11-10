@@ -37,3 +37,5 @@ No Moto G60 XNU port has been built, booted, or validated by this repository.
 - **Blocked** — a documented technical, legal, or hardware blocker exists.
 
 A status change must include links to commits, logs, test steps, device variant, and known limitations.
+
+| DTBO selection | ADB reports `ro.boot.dtbo_idx=1`; live device-tree root is present but selected board-ID files return permission denied | Match index against exact stock DTBO image/table; do not infer EVT/DVT overlay from index alone |
