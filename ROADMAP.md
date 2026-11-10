@@ -53,12 +53,13 @@ Track display/DSI panel, Ilitek touchscreen, Qualcomm audio, Adreno GPU, Bluetoo
 
 ## Phase 5 — Non-destructive prototype
 
-- [ ] Prototype only in a supported emulator or development environment first.
+- [x] Build the AARCH64 UEFI application locally.
+- [ ] Run the UEFI application in an emulator and capture a reproducible test log.
 - [ ] Add automated host-side checks and build reproducibility tests.
 - [ ] Keep device recovery documentation and official firmware references documented.
 - [ ] Require independent review before any experiment that writes to device partitions.
 
-**Exit criteria:** repeatable test evidence and a recovery plan. No daily-driver flashing.
+**Exit criteria:** repeatable emulator/host test evidence and a recovery plan. No daily-driver flashing.
 
 ## Phase 6 — Device experiments (future / gated)
 
