@@ -15,6 +15,7 @@
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
   DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+  PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
 
 [Components]
   uefi/MotoDarwinUefi.inf
