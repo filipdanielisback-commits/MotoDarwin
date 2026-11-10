@@ -47,6 +47,9 @@ DrawScreen (
   Info = mGop->Mode->Info;
   Width = Info->HorizontalResolution;
   Height = Info->VerticalResolution;
+  if (Width < 640 || Height < 480) {
+    return;
+  }
 
   FillRect (0, 0, Width, Height, Background);
   FillRect (Width / 8, Height / 8, (Width * 3) / 4, (Height * 3) / 4, Panel);
@@ -67,6 +70,8 @@ UefiMain (
   EFI_INPUT_KEY Key;
   UINTN EventIndex;
 
+  gST->ConOut->ClearScreen (gST->ConOut);
+
   Status = gBS->LocateProtocol (&gEfiGraphicsOutputProtocolGuid, NULL,
                                 (VOID **)&mGop);
   if (EFI_ERROR (Status)) {
@@ -75,7 +80,6 @@ UefiMain (
     DrawScreen ();
   }
 
-  gST->ConOut->ClearScreen (gST->ConOut);
   Print (L"\r\n");
   Print (L"  MotoDarwin UEFI  |  ARM64 research build\r\n");
   Print (L"  ----------------------------------------\r\n\r\n");
