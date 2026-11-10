@@ -51,3 +51,8 @@ MotoDarwin is a Darwin/XNU research prototype, not a fake or official iOS build.
 This repository does not change the license of Apple or third-party code. Read the selected upstream XNU revision's license and notices before copying, modifying, or redistributing files. See [xnu/README.md](xnu/README.md) and [xnu/UPSTREAM.md](xnu/UPSTREAM.md).
 
 Project documentation has no blanket license declaration yet. Do not assume that third-party code or assets in this repository are relicensed.
+
+
+### Live ADB observations (2026-11-10)
+
+Read-only ADB output from the handset reports `ro.product.device=hanoip`, `ro.product.board=hanoip`, `ro.boot.hardware.sku=XT2135-2`, `ro.board.platform=sm6150`, hardware revision `pvt`, and `ro.boot.dtbo_idx=1`. `uname -a` reports Linux `4.14.190-perf+`, `aarch64`, build date `Fri Oct 27 13:02:24 CDT 2023`. The Android build fingerprint is `motorola/hanoip_retailenq/hanoip:12/S2RIS32.32-20-9-9-2-3/f495e7-429de:user/release-keys`. See [live ADB device audit](docs/adb-device-audit.md). The DTBO index has not been mapped to a specific source overlay.
