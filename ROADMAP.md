@@ -76,6 +76,23 @@ Track display/DSI panel, Ilitek touchscreen, Qualcomm audio, Adreno GPU, Bluetoo
 
 This phase is blocked until platform feasibility, legal review, hardware documentation, and recovery procedures are complete. No device image is considered safe merely because it compiles.
 
+
+## Active Wi-Fi work — Research Milestone 0.1.2
+
+**Status:** Research started; no Darwin driver implementation or working Wi-Fi exists.
+
+- [x] Record the Hanoip Android device-tree reference to `qca_cld3_wlan.ko`.
+- [x] Document why the Android/Linux vendor module is not a drop-in XNU driver.
+- [ ] Identify the exact WLAN device and silicon ID from source-backed device-tree or hardware documentation.
+- [ ] Confirm the WLAN bus/interface and matching node for XT2135-2.
+- [ ] Establish whether the stock device build actually loads the module; keep configuration evidence distinct from runtime evidence.
+- [ ] Review firmware/calibration dependencies and redistribution constraints.
+- [ ] Produce a reviewed XNU driver architecture and feasibility decision before implementation.
+
+See [Wi-Fi Driver Feasibility Report](docs/research/wifi-driver-feasibility.md).
+
+**Exit criteria:** exact hardware identity and bus are supported by reliable evidence, firmware requirements are understood, and a driver design is reviewed. No Wi-Fi support is claimed until implemented and tested.
+
 ## Explicit non-goals
 
 - Claiming this is an official Apple or Motorola project.
