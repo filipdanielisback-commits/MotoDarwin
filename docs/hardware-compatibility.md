@@ -33,21 +33,21 @@ This is a source-based research map, not a hardware bring-up result. A Linux mod
 
 | Subsystem | Evidence found | Current assessment | Darwin/XNU status |
 |---|---|---|---|
-| Display | Motorola kernel config enables Qualcomm MSM DSI Motorola extension (`CONFIG_DRM_MSM_DSI_MOT_EXT=y`); Hanoip build sets 1080 × 2460 and density 440 | Display path is Qualcomm MSM DRM/DSI. Exact panel model, DSI lane/timing data, backlight controller and calibration remain unknown | No MotoDarwin display driver |
-| Touchscreen | Hanoip `modules.load` lists `ilitek_v3_mmi.ko`; Hanoip config disables several alternative Goodix/Himax/Synaptics options | Ilitek V3 driver family is indicated; exact controller part number, bus address and interrupt/reset wiring remain unknown | No MotoDarwin touch driver |
+| Display | Motorola DTS includes Tianma ILI7807S panel definition for 1080 × 2460, 60/120 Hz; PM6150L WLED backlight | Panel family and reset/TE/enable control lines are identified in source; exact fitted panel revision still unconfirmed | No MotoDarwin display driver |
+| Touchscreen | Motorola DTS declares `tchip,ilitek` on QUPv3 SPI SE6 at up to 12 MHz; reset GPIO 8 and IRQ GPIO 9 | Ilitek SPI interface and board connections identified; exact controller part number remains unknown | No MotoDarwin touch driver |
 | Wi-Fi | `modules.load` lists `qca_cld3_wlan.ko`; `BoardConfig.mk` maps `wlan.ko` to that module | Qualcomm CLD3 WLAN software stack is indicated. Exact radio/SoC part and board revision are not established. Do not assume WCN3990 without further evidence | No MotoDarwin Wi-Fi driver |
 | Bluetooth | Qualcomm platform and WLAN stack are present in the Android build sources, but the examined files do not identify the Bluetooth controller/interface | Unknown; requires separate firmware/device-tree evidence | No MotoDarwin Bluetooth driver |
 | Cellular modem / telephony | Hanoip proprietary file list and product config include Qualcomm telephony, IMS and radio support components | Qualcomm modem software integration is indicated; modem model, RF front-end, bands and firmware details remain unknown | No MotoDarwin baseband/telephony integration |
 | GPU | Adreno 618 device specification; Motorola defconfig enables `CONFIG_QCOM_KGSL=y` | Qualcomm KGSL/Adreno Linux path is indicated. Firmware and Android graphics userspace are separate dependencies | No MotoDarwin GPU driver |
-| Audio | Module list includes Qualcomm ADSP/APR, Bolero, WCD934x/WCD937x, WSA881x and `snd_smartpa_aw882xx.ko` | Qualcomm audio DSP/codec-family support is indicated. Exact populated codec/amplifier combination and board routing are not confirmed | No MotoDarwin audio driver |
+| Audio | Hanoip DTS enables Bolero and WCD937x; AW882xx smart amp on I²C SE2 address 0x34; WSA macro is disabled | WCD937x + AW882xx is the best-supported active path in this overlay; module presence alone does not prove WSA881x/WCD934x is active | No MotoDarwin audio driver |
 | Fingerprint | `modules.load` lists `fpc1020_mmi.ko` and `fpsensor_spi_tee.ko` | FPC1020-family fingerprint support is indicated; exact sensor revision and secure-world integration remain unknown | No MotoDarwin fingerprint driver |
-| SAR / proximity-related sensing | `modules.load` lists `sx933x_sar.ko` | SX933x SAR driver family is indicated; exact sensor SKU and whether it exposes additional functions are unknown | No MotoDarwin sensor driver |
+| SAR / proximity-related sensing | Motorola DTS declares Semtech SX933x on I²C SE7 at address 0x28, IRQ GPIO 84 | Device family, bus and interrupt line identified; exact silicon revision and function set remain unknown | No MotoDarwin sensor driver |
 | General sensors | `sensors_class.ko` appears in module list | A vendor sensor class layer is present; accelerometer, gyroscope, magnetometer, light and proximity part numbers are not identified by this file | No MotoDarwin sensor stack |
 | Battery / charging | Motorola kernel config enables `CONFIG_QPNP_QG=y` and `CONFIG_QPNP_SMB5=y`; module list includes `qpnp_adaptive_charge.ko` | Qualcomm PMIC gauge/SMB5 charging support is indicated. Exact PMIC, battery gauge and charger component SKUs are unknown | No MotoDarwin battery/charging driver |
 | USB | Hanoip kernel command line names controller `a600000.dwc3` | Qualcomm DWC3 USB controller path is indicated by the community build recipe; connector and alternate-mode capabilities need separate evidence | No MotoDarwin USB driver |
-| Storage | Device build uses dynamic partitions and ext4; f2fs is enabled as a filesystem option; `exfat.ko` is listed | Filesystem/build support is visible, but exact UFS/eMMC model, capacity, controller and partition map are not established here | No MotoDarwin storage controller driver |
-| Camera | Hanoip proprietary file manifest includes Motorola camera framework and Qualcomm/ArcSoft camera-related components | Camera software stack is proprietary. Exact rear/front sensor models, ISP topology and calibration data remain unknown | No MotoDarwin camera pipeline |
-| NFC | No conclusive NFC controller/module evidence in the files examined | Unknown; absence from this limited file sample is not proof the phone lacks NFC | No MotoDarwin NFC driver |
+| Storage | SDMMAGPIE DTS exposes UFS host controller alias `ufshc1` and vendor partition path `1d84000.ufshc` | UFS controller path identified; exact storage package/model and capacity remain unknown | No MotoDarwin storage controller driver |
+| Camera | Motorola camera overlays define rear main, rear depth, rear wide and front positions; comments name S5KHM2/OV64B, OV02B1B, S5K4H7, OV16A1Q/OV32B candidates | Camera topology and candidate sensor families identified; comments list alternatives and do not prove the exact fitted sensor | No MotoDarwin camera pipeline |
+| NFC | Hanoip common DTS overlay declares `qcom,nq-nci` on I²C SE2 at address 0x28 with IRQ/enable/firmware/clock-request GPIOs | NFC interface is present in the Hanoip source; exact commercial controller part number remains unknown | No MotoDarwin NFC driver |
 | GNSS | No conclusive GNSS hardware/driver identity in the files examined | Unknown; Qualcomm location software references alone would not identify the physical GNSS implementation | No MotoDarwin GNSS driver |
 | Haptics / vibration | Not identified in the examined device-tree files | Unknown | No MotoDarwin haptics driver |
 
@@ -74,12 +74,8 @@ This is a source-based research map, not a hardware bring-up result. A Linux mod
 
 Android device trees describe hardware to the kernel, including components that cannot be discovered automatically. A source-level device-tree audit is therefore a useful next step, but it must be tied to the correct device-tree revision and overlays before treating a property as confirmed hardware fact.
 
-## Next research priorities
+## DTS/DTBO audit update
 
-1. Inspect the matching Motorola kernel's Hanoip DTS/DTSI files and DTBO overlays for panel, touch, sensors, camera, PMIC and peripheral nodes.
-2. Identify exact camera sensor and general sensor part numbers from device-tree compatible strings and board configuration.
-3. Trace the fingerprint, SAR, touch and Wi-Fi module names to their source directories and dependencies.
-4. Compare the community LineageOS device tree with the matching Motorola Android 12 kernel tag; record any differences.
-5. Keep a separate Darwin feasibility column: CPU/platform support, interrupt controller, timers, memory map, IOMMU, DMA, clocks, power domains and device drivers. A Linux driver cannot be reused as an XNU driver without porting or reimplementation.
+The matching Motorola kernel tag has now been inspected directly. See [DTS/DTBO source audit](dts-dtbo-audit.md) for the Hanoip overlays, board IDs, panel, touch, NFC, SAR, audio, camera candidates, and platform-level interfaces. The exact selected overlay for this handset remains unconfirmed.
 
 No hardware feature in this document is claimed to work under Darwin/XNU. No boot image has been built or tested.
