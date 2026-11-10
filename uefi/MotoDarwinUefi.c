@@ -22,18 +22,8 @@ FillRect (
     return EFI_UNSUPPORTED;
   }
 
-  return mGop->Blt (
-                 mGop,
-                 &Color,
-                 EfiBltVideoFill,
-                 0,
-                 0,
-                 X,
-                 Y,
-                 Width,
-                 Height,
-                 0
-                 );
+  return mGop->Blt (mGop, &Color, EfiBltVideoFill, 0, 0,
+                    X, Y, Width, Height, 0);
 }
 
 STATIC
@@ -61,7 +51,6 @@ DrawScreen (
   FillRect (0, 0, Width, Height, Background);
   FillRect (Width / 8, Height / 8, (Width * 3) / 4, (Height * 3) / 4, Panel);
   FillRect (Width / 8, Height / 8, (Width * 3) / 4, 5, Accent);
-
   FillRect (Width / 5, Height / 2 - 70, (Width * 3) / 5, 48, Disabled);
   FillRect (Width / 5, Height / 2 - 10, (Width * 3) / 5, 48, Disabled);
   FillRect (Width / 5, Height / 2 + 50, (Width * 3) / 5, 40, Accent);
@@ -76,15 +65,12 @@ UefiMain (
 {
   EFI_STATUS Status;
   EFI_INPUT_KEY Key;
+  UINTN EventIndex;
 
-  Status = gBS->LocateProtocol (
-                  &gEfiGraphicsOutputProtocolGuid,
-                  NULL,
-                  (VOID **)&mGop
-                  );
-
+  Status = gBS->LocateProtocol (&gEfiGraphicsOutputProtocolGuid, NULL,
+                                (VOID **)&mGop);
   if (EFI_ERROR (Status)) {
-    Print (L"MotoDarwin UEFI: GOP unavailable; using text fallback.\r\n");
+    mGop = NULL;
   } else {
     DrawScreen ();
   }
@@ -103,7 +89,7 @@ UefiMain (
   Print (L"  No operating-system boot action is enabled.\r\n");
 
   while (TRUE) {
-    Status = gBS->WaitForEvent (1, &gST->ConIn->WaitForKey, NULL);
+    Status = gBS->WaitForEvent (1, &gST->ConIn->WaitForKey, &EventIndex);
     if (EFI_ERROR (Status)) {
       return Status;
     }
