@@ -8,6 +8,16 @@ MotoDarwin is an independent research project investigating what would be requir
 >
 > Do not flash experimental images or replace your phone's boot chain. There are no validated Moto G60 boot images here.
 
+## Latest release
+
+[**MotoDarwin 0.1.0-dev1 — Development Preview (Non-Bootable)**](https://github.com/filipdanielisback-commits/MotoDarwin/releases/tag/v0.1.0-dev1)
+
+This pre-release contains a 1 MiB development placeholder only. It is not firmware, an installer, a boot image, or a usable operating system. **Do not flash it to any device.** No physical-device compatibility has been established.
+
+## Project status and roadmap
+
+See [ROADMAP.md](ROADMAP.md) for milestones, evidence requirements, and current blockers. The UEFI application has been built locally, but emulator execution has not yet been verified. No Darwin/XNU kernel is currently booted by this project.
+
 ## Project goals
 
 - Establish a reproducible ARM64 XNU build environment.
@@ -51,7 +61,6 @@ MotoDarwin is a Darwin/XNU research prototype, not a fake or official iOS build.
 This repository does not change the license of Apple or third-party code. Read the selected upstream XNU revision's license and notices before copying, modifying, or redistributing files. See [xnu/README.md](xnu/README.md) and [xnu/UPSTREAM.md](xnu/UPSTREAM.md).
 
 Project documentation has no blanket license declaration yet. Do not assume that third-party code or assets in this repository are relicensed.
-
 
 ### Live ADB observations (2026-11-10)
 
