@@ -79,3 +79,12 @@ Android device trees describe hardware to the kernel, including components that 
 The matching Motorola kernel tag has now been inspected directly. See [DTS/DTBO source audit](dts-dtbo-audit.md) for the Hanoip overlays, board IDs, panel, touch, NFC, SAR, audio, camera candidates, and platform-level interfaces. The exact selected overlay for this handset remains unconfirmed.
 
 No hardware feature in this document is claimed to work under Darwin/XNU. No boot image has been built or tested.
+
+
+## Live ADB observations (2026-11-10)
+
+The handset was inspected using ordinary, read-only ADB commands while Android remained booted. `adb devices` succeeded. Runtime properties report `hanoip`, SKU `XT2135-2`, platform `sm6150`, hardware revision `pvt`, DTBO index `1`, and NFC property label `pn54x`. `uname -a` reports `Linux localhost 4.14.190-perf+ #1 SMP PREEMPT Fri Oct 27 13:02:24 CDT 2023 aarch64`. The build fingerprint is `motorola/hanoip_retailenq/hanoip:12/S2RIS32.32-20-9-9-2-3/f495e7-429de:user/release-keys`.
+
+The live device-tree root exists at `/sys/firmware/devicetree/base` (`/proc/device-tree` is a symlink to it), and its root directory listing includes `qcom,board-id`, `qcom,msm-id`, `qcom,msm-name`, `chosen`, `hw`, and `utags`. Reading `model`, `qcom,board-id`, and `qcom,msm-id` as the ordinary ADB shell user returned `Permission denied`; no permission changes or privilege escalation were attempted.
+
+Android documents `androidboot.dtbo_idx` as the zero-based index or indices of overlays selected from the DTBO partition and applied to the base device tree. Thus `ro.boot.dtbo_idx=1` is a DTBO entry index, not an EVT/DVT label. The exact stock DTBO image and entry ordering have not been correlated with the Motorola source overlays. The selected EVT1/DVT1/DVT2 overlay remains **unconfirmed**. See [live ADB device audit](adb-device-audit.md).
