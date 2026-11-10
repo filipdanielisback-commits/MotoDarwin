@@ -49,7 +49,12 @@ jobs:
           export WORKSPACE="$GITHUB_WORKSPACE"
           export PACKAGES_PATH="$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/edk2"
           export EDK_TOOLS_PATH="$GITHUB_WORKSPACE/edk2/BaseTools"
+          export PYTHON_COMMAND=python3
+          # EDK II's setup scripts expect some optional variables to be unset.
+          # Temporarily disable nounset while sourcing their environment.
+          set +u
           source edk2/edksetup.sh
+          set -u
           GCC5_AARCH64_PREFIX=aarch64-linux-gnu- build \
             -p uefi/MotoDarwin.dsc \
             -a AARCH64 \
