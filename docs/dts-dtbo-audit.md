@@ -180,3 +180,20 @@ After that, the highest-value research tasks are:
 The kernel source is the Motorola Android 12 release tag matching the owner's reported build and kernel baseline. The Hanoip community device tree used in the earlier audit is a separate LineageOS 20 build recipe. Findings in this document come from the Motorola kernel source tag itself, which makes them stronger evidence for this firmware family, but the exact stock merged DTB/DTBO selection for this specific handset remains unverified.
 
 The source DTS/DTSI files are published in Motorola's kernel repository. This document records findings and links to source; it does not copy the kernel source into MotoDarwin.
+
+
+## 8. Follow-up: Motorola DTBO build-list ordering (2026-11-10)
+
+The matching tag's `arch/arm64/boot/dts/qcom/Makefile` lists the Hanoip DTBO targets under `dtbo-$(CONFIG_HANOIP_DTB)` in this local order:
+
+1. `sdmmagpie-hanoip-evt1-overlay.dtbo`
+2. `sdmmagpie-hanoip-dvt1-overlay.dtbo`
+3. `sdmmagpie-hanoip-dvt2-overlay.dtbo`
+
+The same Makefile maps each of these three overlay targets to the shared base `sdmmagpie-hanoi-base.dtb`. The matching Hanoip config fragment sets `CONFIG_HANOIP_DTB=y`. This confirms that the Hanoip family DTBO targets are enabled in the source configuration and documents their order in this Makefile section.
+
+**This local Makefile order is not enough to map the handset's `ro.boot.dtbo_idx=1` to DVT1.** The runtime index refers to an entry in the final DTBO image/table. The full generated table, its global entry ordering, and the exact stock firmware artifact have not been inspected. Other DTBO targets/configuration and packaging steps may affect the final table order. Therefore DVT1 is only a hypothesis suggested by the local list position, not a confirmed selection. Do not label the handset as DVT1 on this evidence.
+
+Sources:
+- [Motorola DTS Makefile at matching tag](https://github.com/MotorolaMobilityLLC/kernel-msm/blob/MMI-S2RIS32.32-20-9-9-2-3/arch/arm64/boot/dts/qcom/Makefile)
+- [Hanoip config fragment at matching tag](https://github.com/MotorolaMobilityLLC/kernel-msm/blob/MMI-S2RIS32.32-20-9-9-2-3/arch/arm64/configs/vendor/ext_config/moto-sdmmagpie-hanoip.config)
