@@ -1,0 +1,69 @@
+name: UEFI ARM64 build
+
+on:
+  push:
+    paths:
+      - "uefi/**"
+      - ".github/workflows/uefi-arm64.yml"
+  pull_request:
+    paths:
+      - "uefi/**"
+      - ".github/workflows/uefi-arm64.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-aarch64:
+    name: Build AArch64 UEFI application
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out MotoDarwin
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes build-essential uuid-dev python3 python3-pip gcc-aarch64-linux-gnu
+
+      - name: Check out pinned EDK II
+        uses: actions/checkout@v4
+        with:
+          repository: tianocore/edk2
+          ref: edk2-stable202411
+          path: edk2
+
+      - name: Initialize EDK II submodules
+        working-directory: edk2
+        run: git submodule update --init
+
+      - name: Build EDK II BaseTools
+        working-directory: edk2
+        run: make -C BaseTools
+
+      - name: Build MotoDarwin UEFI application
+        shell: bash
+        run: |
+          set -euxo pipefail
+          export WORKSPACE="$GITHUB_WORKSPACE"
+          export PACKAGES_PATH="$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/edk2"
+          export EDK_TOOLS_PATH="$GITHUB_WORKSPACE/edk2/BaseTools"
+          source edk2/edksetup.sh
+          GCC5_AARCH64_PREFIX=aarch64-linux-gnu- build \
+            -p uefi/MotoDarwin.dsc \
+            -a AARCH64 \
+            -t GCC5 \
+            -b DEBUG
+
+      - name: Verify EFI artifact
+        run: |
+          test -s Build/MotoDarwin/DEBUG_GCC5/AARCH64/MotoDarwinUefi.efi
+          file Build/MotoDarwin/DEBUG_GCC5/AARCH64/MotoDarwinUefi.efi
+
+      - name: Upload emulator-only EFI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: motodarwin-uefi-aarch64-emulator-only
+          path: Build/MotoDarwin/DEBUG_GCC5/AARCH64/MotoDarwinUefi.efi
+          if-no-files-found: error
