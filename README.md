@@ -31,7 +31,7 @@ MotoDarwin is an independent research project investigating what would be requir
 
 ## Repository map
 
-- `docs/` — architecture, feasibility, [hardware compatibility map](docs/hardware-compatibility.md), [kernel audit](docs/kernel-audit.md), [Wi-Fi research](docs/wifi.md), and Android kernel source match
+- `docs/` — architecture, feasibility, [hardware compatibility map](docs/hardware-compatibility.md), [DTS/DTBO audit](docs/dts-dtbo-audit.md), [kernel audit](docs/kernel-audit.md), [Wi-Fi research](docs/wifi.md), and Android kernel source match
 - `xnu/` — Apple upstream tracking and XNU build research
 - `bootloader/` — boot-chain research; no flashing payloads
 - `devices/moto-g60/` — device-specific notes
